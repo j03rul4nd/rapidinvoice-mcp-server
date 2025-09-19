@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id                       String        @id @unique
+  email                    String        @unique
+  stripeCustomerId         String?       @unique
+  name                     String?
+  monthlyPromptLimit       Int           @default(10)
+  currentPromptUsage       Int           @default(0)
+  lastPromptReset          DateTime      @default(now())
+  createdAt                DateTime      @default(now())
+  updatedAt                DateTime      @updatedAt
+  preferredCurrency        String        @default("EUR")
+  preferredLanguage        String        @default("es")
+  preferredInvoiceLanguage String        @default("es")
+  monthlyInvoiceLimit      Int           @default(5)
+  currentInvoiceUsage      Int           @default(0)
+  lastInvoiceReset         DateTime      @default(now()) @db.Timestamp(6)
+  invoices                 Invoice[]
+  subscription             Subscription?
+}
+
+model Subscription {
+  stripeSubscriptionId String   @id @unique
+  status               String
+  currentPeriodStart   DateTime
+  currentPeriodEnd     DateTime
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  interval             String
+  planId               String
+  userId               String   @unique
+  user                 User     @relation(fields: [userId], references: [id])
+}
+
+model Invoice {
+  id              String    @id @default(cuid())
+  userId          String
+  invoiceNumber   String
+  date            String
+  dueDate         String
+  companyData     Json
+  clientData      Json
+  items           Json
+  notes           String?
+  subtotal        Float
+  tax             Float
+  taxRate         Float
+  total           Float
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  currency        String    @default("EUR")
+  isPublic        Boolean   @default(false)
+  publicExpiresAt DateTime?
+  publicToken     String?   @unique
+  language        String    @default("es")
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, createdAt])
+  @@index([publicToken])
+  @@index([language])
+}

@@ -1,0 +1,50 @@
+{
+  "name": "rapidinvoice-mcp-server",
+  "version": "1.0.0",
+  "description": "Servidor MCP para generar facturas en RapidInvoice con integración a Supabase",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js --api_key=user_32kVAR4EMgF4UYPV2oSVcBuqV05",
+    "test": "npx @modelcontextprotocol/inspector node server.js",
+    "test-with-key": "npx @modelcontextprotocol/inspector node server.js --api_key=user_32kVAR4EMgF4UYPV2oSVcBuqV05"
+  },
+  "keywords": [
+    "mcp",
+    "server",
+    "rapidinvoice",
+    "facturacion",
+    "invoicing",
+    "supabase",
+    "prisma",
+    "nodejs",
+    "claude-desktop",
+    "mcp-server"
+  ],
+  "author": "Joel Benítez Donari",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tu-usuario/rapidinvoice-mcp-server.git"
+  },
+  "homepage": "https://www.rapidinvoice.eu",
+  "bugs": {
+    "url": "https://github.com/tu-usuario/rapidinvoice-mcp-server/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.18.1",
+    "@prisma/client": "^6.16.2",
+    "dotenv": "^17.2.2",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "prisma": "^6.16.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}
