@@ -1,8 +1,12 @@
-# Usar la imagen oficial de Node.js 18 LTS
-FROM node:18-alpine
+# Usar imagen más básica que puede estar en cache
+FROM ubuntu:20.04
 
-# Instalar dependencias del sistema necesarias para Prisma
-RUN apk add --no-cache openssl libc6-compat
+# Instalar Node.js manualmente
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs openssl && \
+    apt-get clean
 
 # Establecer el directorio de trabajo
 WORKDIR /app

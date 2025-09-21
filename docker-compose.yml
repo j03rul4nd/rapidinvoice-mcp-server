@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  rapidinvoice-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rapidinvoice-mcp-server
+    restart: unless-stopped
+    
+    # Variables de entorno
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - API_KEY=${API_KEY:-user_32kVAR4EMgF4UYPV2oSVcBuqV05}
+    
+    # Volúmenes para persistir logs
+    volumes:
+      - ./logs:/app/logs
+      - ./mcp-server.log:/app/mcp-server.log
+    
+    # Red personalizada
+    networks:
+      - rapidinvoice-network
+    
+    # Configuración de salud del contenedor
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('healthy')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    
+    # Configuración de stdio para MCP
+    stdin_open: true
+    tty: true
+    
+    # Límites de recursos
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+networks:
+  rapidinvoice-network:
+    driver: bridge
+
+# Volúmenes para persistencia de datos
+volumes:
+  logs:
+    driver: local
