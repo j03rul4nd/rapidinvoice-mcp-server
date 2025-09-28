@@ -1,8 +1,11 @@
 # RapidInvoice MCP Server
+![cover](./cover.png)
 
 🚀 **Servidor MCP para generar facturas profesionales desde Claude Desktop**
 
 Este servidor MCP (Model Context Protocol) permite generar facturas profesionales directamente desde Claude Desktop, integrándose con la plataforma RapidInvoice y almacenándolas en Supabase.
+![blog](./cover_2.png)
+
 
 ## 🌟 Características
 
